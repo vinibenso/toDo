@@ -1,10 +1,12 @@
-section.task-list{
+
+
+section.task-list {
 
   margin-top: -10rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+
 
   header {
     display: block;
@@ -13,56 +15,53 @@ section.task-list{
     justify-content: center;
     background: none;
 
-   
-   
-   
-    
 
 
     div {
       display: flex;
       color: #fff;
       flex-direction: row;
-      justify-content: space-between; 
+      justify-content: space-between;
       padding: 16px;
       width: 480px;
       background: none;
 
-      
-      
-      
+
       h2 {
         background: none;
-       
+
       }
-      img{
+
+      img {
         background: none;
       }
 
-     
-     
-     
     }
-    
+
 
     .input-group {
       display: flex;
-      
+
       input {
         width: 480px;
         height: 30px;
-        border-radius: 2px;
         border: none;
         background: white;
         padding-left: 8px;
       }
+
       button {
         border: none;
         background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
       }
     }
-    
+
   }
+
   main {
     margin-top: 3rem;
 
@@ -71,8 +70,8 @@ section.task-list{
       width: 480px;
       background: none;
       padding: 0;
-      
-  
+
+
       li {
         display: flex;
         justify-content: space-between;
@@ -82,7 +81,7 @@ section.task-list{
         color: gray;
         background-color: #fff;
         border-radius: 2px;
-       
+
 
         div {
           display: flex;
@@ -99,7 +98,7 @@ section.task-list{
 
           &.completed {
             p {
-              text-decoration:line-through;
+              text-decoration: line-through;
               opacity: 0.6;
             }
           }
@@ -109,32 +108,30 @@ section.task-list{
             position: relative;
             padding-left: 1.5rem;
             margin-bottom: 1.25rem;
-           
-            
-          
+
+
+
             input {
               position: absolute;
               opacity: 0;
               cursor: pointer;
               height: 0;
               width: 0;
-              
-             
-              
+
 
               &:checked {
-                & ~ .checkmark {
+                &~.checkmark {
 
-                  background: rgb(236,130,220);
-background: linear-gradient(315deg, rgba(236,130,220,1) 0%, rgba(0,223,255,1) 100%);
+                  background: rgb(236, 130, 220);
+                  background: linear-gradient(315deg, rgba(236, 130, 220, 1) 0%, rgba(0, 223, 255, 1) 100%);
                 }
 
-                & ~ .checkmark:after {
+                &~.checkmark:after {
                   display: block;
                 }
-              } 
+              }
             }
-          
+
             .checkmark {
               position: absolute;
               top: 0;
@@ -144,7 +141,7 @@ background: linear-gradient(315deg, rgba(236,130,220,1) 0%, rgba(0,223,255,1) 10
               background-color: #fff;
               border-radius: 10px;
               border: 1px solid rgb(230, 224, 224);
-          
+
               &:after {
                 content: "";
                 position: absolute;
@@ -177,7 +174,15 @@ background: linear-gradient(315deg, rgba(236,130,220,1) 0%, rgba(0,223,255,1) 10
           }
         }
       }
-    } 
+    }
   }
 }
 
+.listContainer {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+  
+}

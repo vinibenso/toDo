@@ -12,29 +12,32 @@ interface Task {
   isComplete: boolean;
 }
 
-export function TaskList(props) {
+export function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTaskTitle, setNewTaskTitle] = useState('');
-  
+  const [newTaskTitle, setNewTaskTitle] = useState<string>('');
 
-  function handleCreateNewTask(e) {
-    e.preventDefault()
-   if (!newTaskTitle) return;
+  useEffect(() => {
+    const fetchTasks = async() => {
+      const result = await axios.get<Task[]>('http://localhost:3500/tasks')
+
+      setTasks(result.data)
+    }
+    fetchTasks()
+  }, [])
+
+  async function handleCreateNewTask() {
+   if(newTaskTitle.trim().length ===0) return;
+   
    const newTask = {
-    id: Math.random(),
+    id:Math.random(),
     title: newTaskTitle,
     isComplete: false
    }
-   axios.post('http://localhost:3500/tasks', newTask)
-    .then((response) => {
-      props.handleCreateNewTask()
-    })
    
+   const result = await axios.post('http://localhost:3500/tasks', newTask)
 
    setTasks(odlState => [...odlState, newTask]);
-   setNewTaskTitle("")
-
-   
+   setNewTaskTitle("")   
   }
 
   function handleToggleTaskCompletion(id: number) {
@@ -42,42 +45,68 @@ export function TaskList(props) {
     setTasks(newTasks);
   }
 
-  function handleRemoveTask(id: number) {
-    const filteredTask = tasks.filter(task => task.id !== id)
-    setTasks(filteredTask)
+   async function handleRemoveTask(id: number) {
+     
+    const result = await axios.delete(`http://localhost:3500/tasks/${id}`)
+    setTasks(tasks.filter(task => task.id !== id))
 
   }
 
+  const [dark, setDark] = useState(false)
+
+  const theme = {
+    backgroundColor: dark ? 'black' : "white", 
+    color: dark ? "white" : 'black'}
+
+  function changeTheme(){
+    setDark(dark => !dark)
+  }
+
   return (
+    
+    
     <section className="task-list container">
+      <div>
       <header>
         <div>
-        <h2>TO DO</h2>
-        <button>
-        <img src="icon-sun.svg" alt=""/>
+        <h2>T O D O</h2>
+        <button onClick={changeTheme} >
+        <img src="icon-sun.svg" alt="change theme"/>
         </button>
         </div>
 
-        <div className="input-group">
+        <div className="input-group" >
           <input 
+            style={theme}
             type="text" 
             placeholder="Adicionar novo todo" 
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
-            
           />
-          <button type="submit" data-testid="add-task-button" onClick={handleCreateNewTask}>
-            <FiCheckSquare size={16} color="#fff"/>
+          <button 
+          style={theme}
+          type="button" 
+          data-testid="add-task-button" 
+          onClick={handleCreateNewTask}>
+            <FiCheckSquare  size={16}  color='blue'/>
           </button>
         </div>
+        
       </header>
-
+      </div>
+    
+      <div className="listContainer" style={{backgroundColor: 'black'}}>
       <main>
+        
         <ul>
           {tasks.map(task => (
-            <li key={task.id}>
-              <div className={task.isComplete ? 'completed' : ''} data-testid="task" >
-                <label className="checkbox-container">
+            <li 
+            key={task.id} 
+            style={theme}>
+              <div 
+              className={task.isComplete ? 'completed' : ''}
+              data-testid="task" >
+                <label className="checkbox-container" >
                   <input 
                     type="checkbox"
                     readOnly
@@ -86,17 +115,23 @@ export function TaskList(props) {
                   />
                   <span className="checkmark"></span>
                 </label>
-                <p>{task.title}</p>
+                <p style={theme}>{task.title}</p>
               </div>
 
-              <button type="button" data-testid="remove-task-button" onClick={() => handleRemoveTask(task.id)}>
+              <button 
+              type="button" 
+              data-testid="remove-task-button" 
+              onClick={() => handleRemoveTask(task.id)}>
                 <FiTrash size={16}/>
               </button>
             </li>
           ))}
           
         </ul>
+      
       </main>
+      </div>
     </section>
+    
   )
 }
