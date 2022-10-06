@@ -56,7 +56,9 @@ export function TaskList() {
 
   const theme = {
     backgroundColor: dark ? 'black' : "white", 
-    color: dark ? "white" : 'black'}
+    color: dark ? "white" : 'black',
+    
+  }
 
   function changeTheme(){
     setDark(dark => !dark)
@@ -65,7 +67,7 @@ export function TaskList() {
   return (
     
     
-    <section className="task-list container">
+    <div className="task-list container">
       <div>
       <header>
         <div>
@@ -95,7 +97,7 @@ export function TaskList() {
       </header>
       </div>
     
-      <div className="listContainer" style={{backgroundColor: 'black'}}>
+      <div className="listContainer"  style={theme}>
       <main>
         
         <ul>
@@ -131,7 +133,7 @@ export function TaskList() {
       
       </main>
       </div>
-    </section>
+    </div>
     
   )
 }
